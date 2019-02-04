@@ -47,12 +47,12 @@ struct Error {
 }
 
 // Устанавливаем какие-то из значений для disable/enable сервиса, полезная ручка
-struct SetRequest {
-    1: required SetType set_type
+struct ServiceConfig {
+    1: required Type type
     2: required double value // Значение от 0 до 1
 }
 
-enum SetType {
+enum Type {
     TIMEOUT_RATE
     SUCCESS_RATE
     ALL
@@ -74,6 +74,6 @@ service FaultDetector {
      * Сброс/Установка статистики сервиса.
      * Может потенциально пригодиться для более умных сервисов, которые вкурсе "проблем"
      **/
-    void SetServiceStatistics(1: ServiceId service_id, 2: SetRequest set_request)
+    void SetServiceStatistics(1: ServiceId service_id, 2: ServiceConfig service_config)
 
 }
