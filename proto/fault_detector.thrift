@@ -12,7 +12,7 @@ enum Reliability {
     GOOD = 20
 }
 
-struct AvailabilityResponse {
+struct Availability {
     1: required ServiceId service_id
     2: required double timeout_rate // сколько запросов вышли за пределы среднего значения времени
     3: required double success_rate // сколько запросово из общего количества завершились успешно
@@ -63,7 +63,7 @@ service FaultDetector {
     /**
      * Проверка доступности сервисов
      **/
-    list<AvailabilityResponse> CheckAvailability(1: list<ServiceId> services)
+    list<Availability> CheckAvailability(1: list<ServiceId> services)
 
     /**
      * Регистрация процесса операции
