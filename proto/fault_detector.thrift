@@ -4,7 +4,7 @@ namespace java com.rbkmoney.damsel.fault_detector
 namespace erlang fault_detector
 
 typedef base.ID ServiceId
-typedef base.ID RequestId
+ typedef base.ID OperationId
 typedef i64     Milliseconds
 typedef double  FailureRate
 typedef i16     TimeoutDelta
