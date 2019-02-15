@@ -28,13 +28,6 @@ struct ServiceStatistics {
 
 }
 
-union Operation {
-    1: OperationId  operation_id
-    2: Start        start
-    3: Finish       finish
-    4: Error        error
-}
-
 struct Start {
     1: required base.Timestamp time_start
 }
@@ -45,6 +38,17 @@ struct Finish {
 
 struct Error {
     1: required base.Timestamp time_end
+}
+
+union OperationState {
+    1: Start        start
+    2: Finish       finish
+    3: Error        error
+}
+
+struct Operation {
+    1: required OperationId      operation_id
+    2: required OperationState   state
 }
 
 /**
