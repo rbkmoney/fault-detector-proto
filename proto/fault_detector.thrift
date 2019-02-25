@@ -20,10 +20,10 @@ struct ServiceStatistics {
     3: required OperationsCount   operations_count
     /** Количество операций завершившихся с ошибкой */
     4: required OperationsCount   error_operations_count
-    /** Количество операций превысивших ожилаемое время выполнения */
+    /** Количество операций превысивших ожидаемое время выполнения */
     5: required OperationsCount   overtime_operations_count
     /** Количество операций, которые еще выполняются и превысили ожидаемое время выполнения */
-    6: required OperationsCount   success_opertions_count
+    6: required OperationsCount   success_operations_count
 }
 
 struct Start {
