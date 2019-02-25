@@ -12,7 +12,6 @@ typedef i64     OperationsCount
 
 /** Ответ сервиса определения ошибок на запрос статистики для сервиса */
 struct ServiceStatistics {
-
     /** ID сервиса */
     1: required ServiceId         service_id
     /** Показатель частоты отказов для данного сервиса от 0 до 1, где 0 - это отсутствие ошибок, а 1 - исключительно сбойные операции */
@@ -21,11 +20,10 @@ struct ServiceStatistics {
     3: required OperationsCount   operations_count
     /** Количество операций завершившихся с ошибкой */
     4: required OperationsCount   error_operations_count
-    /** Количество успешных операций превысивших ожилаемое время выполнения */
+    /** Количество операций превысивших ожилаемое время выполнения */
     5: required OperationsCount   overtime_operations_count
     /** Количество операций, которые еще выполняются и превысили ожидаемое время выполнения */
-    6: required OperationsCount   hovering_opertions_count
-
+    6: required OperationsCount   success_opertions_count
 }
 
 struct Start {
@@ -51,40 +49,21 @@ struct Operation {
     2: required OperationState   state
 }
 
-/**
-* Конфигурация детектора ошибок для конкретного сервиса
-*
-* Предполагается, что временные характеристики будут заданы в мс
-**/
+/** Конфигурация детектора ошибок для конкретного сервиса */
 struct ServiceConfig {
-
-    /** Время жизни операции в рамках сервиса (в рамках данного времени будет рассчитано среднее время выполнения операции) */
-    1: required Milliseconds operation_lifetime
     /** Временной интервал для "скользящего окна" (время в рамках которого будут браться операции для расчета статистики) */
-    2: required Milliseconds sliding_window
-    /**
-    * Таймаут дельта. Использвется при определении операций, которые не уложились в планируемое время выполнения.
-    * Задается как десятичное число как отображение дельты в процентах. Например, если timeout_delta = 10, а среднее
-    * время выполнения 4000мс, то операции превысившие 4400мс будут считаться как сбойные (если не задан
-    * hovering_operation_error_delay больший чем 4400)
-    */
-    3: optional TimeoutDelta timeout_delta
-    /** Время, после которого операция считается зависшей. Если не задано, то будет равно среднему времени
-    * выполнения транзакции + дельта. Если задано, то после превышения данного значения операция будет считаться сбойной
-    */
-    4: optional Milliseconds hovering_operation_error_delay
-
+    1: required Milliseconds sliding_window
+    /** Ожидаемое время выполнения операции */
+    2: required Milliseconds operation_time_limit
 }
 
 exception ServiceNotFoundException {}
 
 service FaultDetector {
-
     /** Инициализация параметров сервиса */
     void InitService(1: ServiceId service_id, 2: ServiceConfig service_config)
     /** Получение статистики по сервисам */
     list<ServiceStatistics> GetStatistics(1: list<ServiceId> services)
     /** Регистрация операции сервиса **/
     void RegisterOperation(1: ServiceId service_id, 2: Operation operation, 3: ServiceConfig service_config) throws (1: ServiceNotFoundException ex1)
-
 }
