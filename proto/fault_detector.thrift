@@ -5,10 +5,10 @@ namespace erlang fault_detector
 
 typedef base.ID ServiceId
 typedef base.ID OperationId
+typedef i32     Seconds
 typedef i64     Milliseconds
-typedef double  FailureRate
-typedef i16     TimeoutDelta
 typedef i64     OperationsCount
+typedef double  FailureRate
 
 /** Ответ сервиса определения ошибок на запрос статистики для сервиса */
 struct ServiceStatistics {
@@ -55,6 +55,8 @@ struct ServiceConfig {
     1: required Milliseconds sliding_window
     /** Ожидаемое время выполнения операции */
     2: required Milliseconds operation_time_limit
+    /** Временной интервал для преагрегации операций */
+    3: optional Seconds pre_addgegation_size
 }
 
 exception ServiceNotFoundException {}
