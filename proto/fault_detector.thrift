@@ -56,7 +56,7 @@ struct ServiceConfig {
     /** Ожидаемое время выполнения операции */
     2: required Milliseconds operation_time_limit
     /** Временной интервал для преагрегации операций */
-    3: optional Seconds pre_addgegation_size
+    3: optional Seconds pre_aggregation_size
 }
 
 exception ServiceNotFoundException {}
